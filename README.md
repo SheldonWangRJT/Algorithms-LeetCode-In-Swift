@@ -2,17 +2,15 @@
 This repository is a collection of Leetcode questions and solutions. 
 
 To use this project to test the algorithm result. 
-1. Go to the view controller class
-2. Invoke the algorithms in viewDidLoad, where I have already put some examples.
-3. To invoke any func, do the following:
-   
+1. Go to the view controller class 
+2. Invoke the algorithms in viewDidLoad, where I have already put some examples. 
+3. Because all the functions are written in the Algorithms class and they are class functions.
+4. To invoke any func, do the following:  
    Algorithms.threeSum([-1,0,1,2,-1,-4])
    
-4. Because all the functions are written in the Algorithms class and they are class functions.
 
-This repository will be updated quit often, so please stay tune.
-Currently it contains:
-1.  Two Sum   		                                      Easy		
+This repository will be updated quit often, so please stay tune. Currently it contains:
+1.    Two Sum   		                                      Easy		
 12.	Integer to Roman   			                	         	Medium	
 13.	Roman to Integer   			                	          Easy	
 14.	Longest Common Prefix   			                     	Easy	
