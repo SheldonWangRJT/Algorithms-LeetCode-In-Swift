@@ -9,7 +9,7 @@ To use this project to test the algorithm result.
    Algorithms.threeSum([-1,0,1,2,-1,-4])
    
 
-This repository will be updated quit often, so please stay tune. Currently it contains:
+This repository will be updated quite often, so please stay tune. Currently it contains:
 1.    Two Sum   		                                      Easy		
 12.	Integer to Roman   			                	         	Medium	
 13.	Roman to Integer   			                	          Easy	
