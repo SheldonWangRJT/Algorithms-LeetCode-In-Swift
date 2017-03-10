@@ -627,6 +627,139 @@ class Algorithms: NSObject {
         return newHead
     }
     
+//75. Sort Colors
+/*
+     Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.
+     
+     Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
+     
+     Note:
+     You are not suppose to use the library's sort function for this problem.
+ */
+    class func sortColors(_ nums: inout [Int]) {
+        var l = 0, r = nums.count-1
+        var i = 0
+        
+        while i <= r {
+            
+            while (nums[i] == 2 && i < r) {
+                swap(&nums[i], &nums[r])
+                r -= 1
+            }
+            
+            while (nums[i] == 0 && i > l) {
+                swap(&nums[i], &nums[l])
+                l += 1
+            }
+            i += 1
+        }
+    }
+
+//Select K nearest points
+//find k nearest points in and points array regarding the target point
+    
+    class func kNearest(_ target:CGPoint, _ points:[CGPoint], _ k: Int) -> [CGPoint] {
+        
+        var heap = [CGPoint]()
+        
+        guard k>0 else {
+            return heap
+        }
+        
+        guard points.count>0 else {
+            return heap
+        }
+        
+        for point in points {
+            adjustHeap(&heap, newPoint: point, k, target)
+        }
+        
+        return heap
+    }
+    
+    class private func adjustHeap(_ heap: inout [CGPoint], newPoint:CGPoint, _ k: Int, _ targetPoint: CGPoint) {
+        
+        if heap.isEmpty {
+            heap.append(newPoint)
+        }else {
+            var i = heap.count-1
+            wLoop: while i >= 0 {
+                if distanceBtwPoints(newPoint, targetPoint) < distanceBtwPoints(heap[i], targetPoint) {
+                    i -= 1
+                }else {
+                    break wLoop
+                }
+            }
+            
+            heap.insert(newPoint, at: i+1)
+            if heap.count > k {
+                heap.removeLast()
+            }
+        }
+    }
+    
+    class func distanceBtwPoints(_ p1:CGPoint, _ p2:CGPoint) -> Double {
+        return pow(Double(p1.x)-Double(p2.x),2) + pow(Double(p1.y)-Double(p2.y), 2)
+    }
+
+//114. Flatten Binary Tree to Linked List 
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     *     public var val: Int
+     *     public var left: TreeNode?
+     *     public var right: TreeNode?
+     *     public init(_ val: Int) {
+     *         self.val = val
+     *         self.left = nil
+     *         self.right = nil
+     *     }
+     * }
+     */
+/*
+     For example,
+     Given
+     
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+     
+     The flattened tree should look like:
+     1
+      \
+       2
+        \
+         3
+          \
+           4
+            \
+             5
+              \
+               6
+ */
+    func flatten(_ root: TreeNode?) {
+        if root == nil {
+            return
+        }
+        
+        var head = root
+        flatten(head?.left)
+        flatten(head?.right)
+        
+        let tempR = head?.right
+        
+        head?.right = head?.left
+        head?.left = nil
+        
+        while head?.right != nil {
+            head = head?.right
+        }
+        
+        head?.right = tempR
+        
+    }
     
     
 }
