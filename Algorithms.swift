@@ -627,8 +627,56 @@ class Algorithms: NSObject {
         return newHead
     }
     
+//29. Divide Two Integers
+/*    Divide two integers without using multiplication, division and mod operator.
+    
+    If it is overflow, return MAX_INT.
+*/
+    class func divide(_ dividend: Int, _ divisor: Int) -> Int {
+        
+        guard divisor != 0 else {
+            return Int.max
+        }
+        
+        guard dividend != 0 else {
+            return 0
+        }
+        
+        var sign = 1
+        
+        if dividend < 0 {
+            if divisor > 0 {
+                sign = -1
+            }
+        }else {
+            if divisor < 0 {
+                sign = -1
+            }
+        }
+        
+        var dd = abs(dividend)
+        var dr = abs(divisor)
+        
+        //create result var
+        var res = 0
+        
+        //substract using shift operator, will sub temp,2*temp,4*temp.. until it can not sub
+        //then reset the temp back to the original value and do the above step again 
+        //while loop will stop until the final dd is not >= dr
+        while dd >= dr {
+            var i = 1, temp = dr
+            while dd >= temp {
+                dd -= temp
+                res += i
+                i <<= 1
+                temp <<= 1
+            }
+        }
+        return res*sign
+    }
+    
 //75. Sort Colors
-/*
+    /*
      Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.
      
      Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
@@ -655,6 +703,62 @@ class Algorithms: NSObject {
         }
     }
 
+//91. Decode String
+/*
+     A message containing letters from A-Z is being encoded to numbers using the following mapping:
+     
+     'A' -> 1
+     'B' -> 2
+     ...
+     'Z' -> 26
+     Given an encoded message containing digits, determine the total number of ways to decode it.
+     
+     For example,
+     Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
+     
+     The number of ways decoding "12" is 2.
+ */
+    func numDecodings(_ s: String) -> Int {
+        
+        if s.characters.isEmpty {
+            return 0
+        }
+        
+        //put a placehodler 1 at first, which indicates "" has only one way to decode
+        //although given empty string we will return 0
+        let n = s.characters.count
+        var dp = [Int]()
+        dp.append(1)
+        
+        //append 0s for the result n count to make the dp array length: n+1
+        for _ in 0..<n {
+            dp.append(0)
+        }
+        
+        //check the first character, if 0, dp[1]=0, since 0 has to be part of 10 or 20, else dp[1]=1
+        let chars = s.characters.map{String($0)}
+        dp[1] = (chars[0] == "0") ? 0 : 1
+        
+        //return here for the case of "0"
+        if s.characters.count == 1 {
+            return dp[1]
+        }
+        
+        //accumulate result with previously saved numbers
+        for i in 2...n {
+            let first = Int(chars[i-1])!
+            let second = Int(chars[i-2]+chars[i-1])!
+            if(first >= 1 && first <= 9) {
+                dp[i] += dp[i-1]
+            }
+            if(second >= 10 && second <= 26) {
+                dp[i] += dp[i-2]
+            }
+        }
+        return dp[n]
+    }
+    
+    
 //Select K nearest points
 //find k nearest points in and points array regarding the target point
     
@@ -739,7 +843,7 @@ class Algorithms: NSObject {
               \
                6
  */
-    func flatten(_ root: TreeNode?) {
+    class func flatten(_ root: TreeNode?) {
         if root == nil {
             return
         }
@@ -760,6 +864,100 @@ class Algorithms: NSObject {
         head?.right = tempR
         
     }
+    
+//209. Minimum Size Subarray Sum
+/*
+ Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn't one, return 0 instead.
+ 
+ For example, given the array [2,3,1,2,4,3] and s = 7,
+ the subarray [4,3] has the minimal length under the problem constraint.
+ */
+    
+    //step to solve this in one pass, first move the right side towards right
+    //check if sum >= s, if not it means alfter search all it failed to get the result
+    //next move left side towards right
+    //check if sum < s, if not it means no result, no update length
+    
+    //one thing to be noticed that "r" and "i" are one step faster than the wanted index
+    
+    class func minSubArrayLen(_ s: Int, _ nums: [Int]) -> Int {
+        
+        var l = 0, r = 0
+        var sum = 0
+        var len = Int.max
+        
+        while r < nums.count {
+            while sum < s && r < nums.count {
+                sum += nums[r]
+                r += 1
+            }
+            
+            if sum >= s {
+                len = min(len,(r-1)-l+1)
+            }else {
+                break
+            }
+            
+            while sum >= s && l < r {
+                sum -= nums[l]
+                l += 1
+            }
+            
+            if sum < s {
+                len = min(len,(r-1)-(l-1)+1)
+            }
+        }
+        
+        if len == Int.max {
+            len = 0
+        }
+        return len
+    }
+    
+//350. Intersection of Two Arrays II
+/*
+     Given two arrays, write a function to compute their intersection.
+     
+     Example:
+     Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2, 2].
+     
+     Note:
+     Each element in the result should appear as many times as it shows in both arrays.
+     The result can be in any order.
+ */
+    //sort and then compare
+    class func intersect(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
+        
+        guard !nums1.isEmpty && !nums2.isEmpty else {
+            return []
+        }
+        
+        let sNums1 = nums1.sorted()
+        let sNums2 = nums2.sorted()
+        
+        var inter = [Int]()
+        
+        var i = 0, j = 0
+        
+        while i<nums1.count && j<nums2.count {
+            
+            if sNums1[i] < sNums2[j] {
+                i += 1
+            }else if sNums1[i] == sNums2[j] {
+                inter.append(sNums1[i])
+                i += 1
+                j += 1
+            }else {
+                j += 1
+            }
+        }
+        
+        return inter
+        
+    }
+    
+    
+    
     
     
 }
