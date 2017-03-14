@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         Algorithms.threeSum([-1,0,1,2,-1,-4])
         Algorithms.fourSum([-2,-1,0,0,1,2], 0)
         
-        let list = Algorithms.generateParenthesis(2)
+        let list = Algorithms.generateParenthesis(3)
         print(list)
     }
 

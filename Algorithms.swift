@@ -32,14 +32,8 @@ class Algorithms: NSObject {
                 return [i,ind]
             }
         }
-        
         return res
     }
-    
-    
- 
-    
-    
     
 //12. Integer to Roman
 /*
@@ -674,8 +668,143 @@ class Algorithms: NSObject {
         }
         return res*sign
     }
+//39. Combination Sum
+    /*
+     Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+     
+     The same repeated number may be chosen from C unlimited number of times.
+     
+     Note:
+     All numbers (including target) will be positive integers.
+     The solution set must not contain duplicate combinations.
+     For example, given candidate set [2, 3, 6, 7] and target 7,
+     A solution set is:
+     [
+     [7],
+     [2, 2, 3]
+     ]
+ */
+    class func combinationSum(_ candidates:[Int], _ target: Int) -> [[Int]]{
+        let sCands = candidates.sorted()
+        var result = NSMutableSet(array:[Int]())
+        getResult(&result, [Int](), sCands, target, 0)
+        return Array(result) as! [[Int]]
+    }
     
-//75. Sort Colors
+    class private func getResult(_ result: inout NSMutableSet, _ cur:[Int], _ cands:[Int], _ target: Int, _ start: Int){
+        if(target > 0){
+            for i in start..<cands.count {
+                if target >= cands[i] {
+                    var newCur = cur
+                    newCur.append(cands[i])
+                    getResult(&result, newCur, cands, target-cands[i], i)
+                }
+            }
+        }else if(target == 0 ){
+            result.add(cur)
+        }
+    }
+    
+//49. Group Anagrams
+/*
+     Given an array of strings, group anagrams together.
+     
+     For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+     Return:
+     
+     [
+     ["ate", "eat","tea"],
+     ["nat","tan"],
+     ["bat"]
+     ]
+ */
+    class func groupAnagrams(_ strs: [String]) -> [[String]] {
+        guard strs.count>0 else {
+            return [[]]
+        }
+        
+        let prime:[String:Int] = ["a":2, "b":3, "c":5, "d":7, "e":11, "f":13, "g":17, "h":19, "i":23, "j":29, "k":31, "l":41, "m":43, "n":47, "o":53, "p":59, "q":61, "r":67, "s":71, "t":73, "u":79, "v":83, "w":89, "x":97, "y":101, "z":103]
+        var muls = [Int]()
+        
+        for s in strs {
+            if s.isEmpty {
+                muls.append(0)
+            }else {
+                var mul = 1
+                for ch in s.characters {
+                    mul = mul * (prime[String(ch)]!)
+                }
+                muls.append(mul)
+            }
+        }
+        
+        var map = [Int:[String]]()
+        
+        for i in 0..<muls.count {
+            if map[muls[i]] != nil{
+                var aryCopy:[String] = map[muls[i]]!
+                aryCopy.append(strs[i])
+                map[muls[i]] = aryCopy
+            }else {
+                map[muls[i]] = [strs[i]]
+            }
+        }
+        
+        var res = [[String]]()
+        
+        for (_, vals) in map {
+            res.append(vals)
+        }
+        
+        return res
+    }
+    
+//62. Unique Paths
+/*
+     A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+     
+     The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+     
+    ---------------
+    |R| | | | | | |
+    ---------------
+    | | | | | | | |
+    ---------------
+    | | | | | | |F|
+    ---------------
+
+     R = Robot, F = Finish
+ */
+    class func uniquePaths(_ m: Int, _ n: Int) -> Int {
+        let tot = m+n-2
+        let down = m-1
+        //choose m-1 is the amount to go down
+        //res = choose m-1 out of m+n-2 = tot!/((m-1)!*(n-1))
+        if m==0 || n==0 {
+            return 0
+        }
+        if m==1 || n==1 {
+            return 1
+        }
+        return factor(tot)/(factor(down)*factor(tot-down)) //here can be improved with multiplication instead of factorial
+    }
+    
+    class private func factor(_ v:Int) -> Int{
+        guard v>0 else {
+            return 0
+        }
+        
+        var res = 1
+        var i = v
+        while i > 0 {
+            res *= i
+            i -= 1
+        }
+        
+        return res
+    }
+    
+    //75. Sort Colors
     /*
      Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.
      
@@ -718,7 +847,7 @@ class Algorithms: NSObject {
      
      The number of ways decoding "12" is 2.
  */
-    func numDecodings(_ s: String) -> Int {
+    class func numDecodings(_ s: String) -> Int {
         
         if s.characters.isEmpty {
             return 0
@@ -758,6 +887,23 @@ class Algorithms: NSObject {
         return dp[n]
     }
     
+//98. Valid Binary Search Tree
+    class func isValidBST(_ root: TreeNode?) -> Bool {
+        
+        return isValidWithin(root, Int.min, Int.max)
+    }
+    
+    class private func isValidWithin(_ root: TreeNode?, _ min:Int, _ max:Int) -> Bool {
+        if root == nil {
+            return true
+        }
+        
+        if let v = root?.val, v >= max || v <= min {
+            return false
+        }
+        
+        return isValidWithin(root?.left, min, (root?.val)!) && isValidWithin(root?.right, (root?.val)!, max)
+    }
     
 //Select K nearest points
 //find k nearest points in and points array regarding the target point
@@ -865,12 +1011,81 @@ class Algorithms: NSObject {
         
     }
     
+//125. Valid Palindrome 
+    /*
+     Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+     
+     For example,
+     "A man, a plan, a canal: Panama" is a palindrome.
+     "race a car" is not a palindrome.
+     
+     Note:
+     Have you consider that the string might be empty? This is a good question to ask during an interview.
+     
+     For the purpose of this problem, we define empty string as valid palindrome.
+     
+ */
+    class func isPalindrome(_ s: String) -> Bool {
+        if s.isEmpty {
+            return true
+        }
+        var pdStr = s
+        let charSet = NSCharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+        pdStr = pdStr.components(separatedBy: charSet.inverted).joined().lowercased()
+        
+        if pdStr.isEmpty || pdStr.characters.count == 1 {
+            return true
+        }
+        
+        let charAry = pdStr.characters.map{String($0)}
+        for i in 0...(charAry.count-1)/2 {
+            if charAry[i] != charAry[charAry.count-1-i] {
+                return false
+            }
+        }
+        return true
+    }
+    
+//198. House Robber
+    /*
+     You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+     
+     Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+ */
+    class func rob(_ nums: [Int]) -> Int {
+        
+        if nums.isEmpty {
+            return 0
+        }
+        
+        if nums.count == 1 {
+            return nums[0]
+        }
+        
+        if nums.count == 2 {
+            return max(nums[0],nums[1])
+        }
+        
+        var dp = [Int]()
+        dp.append(nums[0])
+        dp.append(max(nums[0],nums[1]))
+        for i in 2...nums.count-1 {
+            dp.append(0)
+        }
+        
+        for i in 2...nums.count-1 {
+            dp[i] = max(nums[i] + dp[i-2], dp[i-1])
+        }
+        
+        return dp.last!
+    }
+    
 //209. Minimum Size Subarray Sum
 /*
  Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn't one, return 0 instead.
  
  For example, given the array [2,3,1,2,4,3] and s = 7,
- the subarray [4,3] has the minimal length under the problem constraint.
+ the subarray [4,3] ≥ 7 has the minimal length under the problem constraint.
  */
     
     //step to solve this in one pass, first move the right side towards right
@@ -912,6 +1127,51 @@ class Algorithms: NSObject {
             len = 0
         }
         return len
+    }
+    
+//239. Sliding Window Maximum
+/*
+     Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+     
+     For example,
+     Given nums = [1,3,-1,-3,5,3,6,7], and k = 3.
+     
+     Window position                Max
+     ---------------               -----
+     [1  3  -1] -3  5  3  6  7       3
+     1 [3  -1  -3] 5  3  6  7       3
+     1  3 [-1  -3  5] 3  6  7       5
+     1  3  -1 [-3  5  3] 6  7       5
+     1  3  -1  -3 [5  3  6] 7       6
+     1  3  -1  -3  5 [3  6  7]      7
+     Therefore, return the max sliding window as [3,3,5,5,6,7].
+     
+     Note:
+     You may assume k is always valid, ie: 1 ≤ k ≤ input array's size for non-empty array.
+ */
+    class func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
+        
+        guard !nums.isEmpty && k <= nums.count else {
+            return []
+        }
+        //O(n*k)
+        var tempMax = Int.min
+        var tempMaxInd = -1
+        var res = [Int]()
+        
+        for i in 0...nums.count-k {
+            if tempMaxInd>=i && tempMaxInd<=i+k-1 {
+                tempMax = max(tempMax,nums[i+k-1])
+                res.append(tempMax)
+            }else {
+                tempMax = Int.min
+                for j in i..<i+k {
+                    tempMax = max(tempMax,nums[j])
+                }
+                res.append(tempMax)
+            }
+        }
+        return res
     }
     
 //350. Intersection of Two Arrays II
