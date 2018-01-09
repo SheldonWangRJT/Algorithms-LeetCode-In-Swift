@@ -1216,8 +1216,36 @@ class Algorithms: NSObject {
         
     }
     
-    
-    
-    
+ // Zig - Zag print String
+ //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+ //
+ //P   A   H   N
+ //A P L S I I G
+ //Y   I   R
+ //And then read line by line: "PAHNAPLSIIGYIR"
+    class func convert(_ s: String, _ numRows: Int) -> String {
+        guard numRows > 1 else { return s }
+        guard !s.isEmpty else { return s }
+        var bagPointer = 0
+        var ind = 0
+        var counter = 0
+        var goingDown = true
+        var bags = [[String]]()
+        for _ in 0..<numRows {
+            bags.append([])
+        }
+        let chars = s.characters.map({"\($0)"})
+        while ind <= chars.count - 1 {
+            bags[bagPointer].append(chars[ind])
+            ind += 1
+            bagPointer = goingDown ? bagPointer + 1 : bagPointer - 1
+            counter += 1
+            if counter == numRows-1 {
+                counter = 0
+                goingDown = !goingDown
+            }
+        }
+        return bags.flatMap({$0}).joined()
+    }
     
 }
