@@ -1248,4 +1248,23 @@ class Algorithms: NSObject {
         return bags.flatMap({$0}).joined()
     }
     
+  //first unique char in a string
+ class func findFirstUniqueChar(chars: [String]) -> String {
+    guard !chars.isEmpty else { return "" }
+    var charsSet = Set<String>()
+    var repeatedCharsSet = Set<String>()
+    for char in chars {
+        let (res, _) = charsSet.insert(char)
+        if res == false {
+            _ = repeatedCharsSet.insert(char)
+        }
+    }
+    for i in 0..<chars.count {
+        if !repeatedCharsSet.contains(chars[i]) {
+            return chars[i]
+        }
+    }
+    return ""
+}
+ 
 }
