@@ -9,14 +9,14 @@
 import UIKit
 
 class Algorithms: NSObject {
-
-//1 Two sum
-/*
- Given nums = [2, 7, 11, 15], target = 9,
- 
- Because nums[0] + nums[1] = 2 + 7 = 9,
- return [0, 1].
-*/
+    
+    //1 Two sum
+    /*
+     Given nums = [2, 7, 11, 15], target = 9,
+     
+     Because nums[0] + nums[1] = 2 + 7 = 9,
+     return [0, 1].
+     */
     class func twoSum(_ nums:[Int],_ target:Int) -> [Int]{
         
         let res = [Int]()
@@ -35,12 +35,12 @@ class Algorithms: NSObject {
         return res
     }
     
-//12. Integer to Roman
-/*
- Given an integer, convert it to a roman numeral.
- 
- Input is guaranteed to be within the range from 1 to 3999.
- */
+    //12. Integer to Roman
+    /*
+     Given an integer, convert it to a roman numeral.
+     
+     Input is guaranteed to be within the range from 1 to 3999.
+     */
     class func intToRoman(_ num: Int) -> String {
         let M:[String] = ["", "M", "MM", "MMM"]
         let C:[String] = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]
@@ -48,17 +48,17 @@ class Algorithms: NSObject {
         let I:[String] = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]
         return M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10]
     }
-
-//13. Roman to Integer
+    
+    //13. Roman to Integer
     /*
      Given an integer, convert it to a roman numeral.
      
      Input is guaranteed to be within the range from 1 to 3999.
      */
     
-//consider two cases
-//for XIX case, should be X + (IX) = 10+1+(10-2), that's why -prev*2
-//for XII case, just X + I + I = 10+1+1
+    //consider two cases
+    //for XIX case, should be X + (IX) = 10+1+(10-2), that's why -prev*2
+    //for XII case, just X + I + I = 10+1+1
     
     class func romanToInt(_ s: String) -> Int {
         let dict = ["I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000]
@@ -72,7 +72,7 @@ class Algorithms: NSObject {
             if let curr = dict[String(char)] {
                 if curr > prev {
                     result = result + curr - prev*2
-
+                    
                     prev = curr
                 }else {
                     result += curr
@@ -82,9 +82,9 @@ class Algorithms: NSObject {
         }
         return result
     }
-
     
-//14. common prefix of string array [String]
+    
+    //14. common prefix of string array [String]
     class func longestCommonPrefix(_ strs: [String]) -> String {
         
         if strs.isEmpty { return "" }
@@ -117,7 +117,7 @@ class Algorithms: NSObject {
         }
     }
     
-//15. three sum. find three numbers that can sum up to 0 from int array
+    //15. three sum. find three numbers that can sum up to 0 from int array
     class func threeSum(_ nums: [Int]) -> [[Int]] {
         
         var resAry = [[Int]]()
@@ -170,7 +170,7 @@ class Algorithms: NSObject {
                 if NSSet(array:ary).contains(0-val1-val2) {
                     resAry.append([val1,val2,0-val1-val2])
                 }
-
+                
             }
             
         }
@@ -178,12 +178,12 @@ class Algorithms: NSObject {
         return resAry
         
     }
-//16. Three Sum - Closest
-/* Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution
- */
-/* For example, given array S = {-1 2 1 -4}, and target = 1.
+    //16. Three Sum - Closest
+    /* Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution
+     */
+    /* For example, given array S = {-1 2 1 -4}, and target = 1.
      The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
- */
+     */
     class func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
         
         //we are assuming we will have exact one solution, so that we dont need to take care of the cases when nums.count<3
@@ -214,11 +214,11 @@ class Algorithms: NSObject {
     }
     
     
-//17. Letter Combinations of a Phone Number
-/*
+    //17. Letter Combinations of a Phone Number
+    /*
      
      1      2       3
-            ABC     DEF
+     ABC     DEF
      
      4      5       6
      GHI    JKL     MNO
@@ -226,11 +226,11 @@ class Algorithms: NSObject {
      7      8       9
      PQRS   TUV     WXYZ
      
-            0
+     0
      
      Input:Digit string "23"
      Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
- */
+     */
     class func letterCombinations(_ digits: String) -> [String] {
         
         guard !digits.isEmpty else {
@@ -271,13 +271,13 @@ class Algorithms: NSObject {
         
         return resAry
     }
-
-
-//18. Four sum 
-/*
+    
+    
+    //18. Four sum
+    /*
      Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
- */
-/*
+     */
+    /*
      For example, given array S = [1, 0, -1, 0, -2, 2], and target = 0.
      
      A solution set is:
@@ -286,7 +286,7 @@ class Algorithms: NSObject {
      [-2, -1, 1, 2],
      [-2,  0, 0, 2]
      ]
- */
+     */
     class func fourSum(_ nums: [Int], _ target: Int) -> [[Int]] {
         
         var results = [[Int]]()
@@ -346,8 +346,8 @@ class Algorithms: NSObject {
     }
     
     
-//19. Remove Nth Node From End of List
-/*
+    //19. Remove Nth Node From End of List
+    /*
      Given a linked list, remove the nth node from the end of list and return its head.
      
      For example,
@@ -355,7 +355,7 @@ class Algorithms: NSObject {
      Given linked list: 1->2->3->4->5, and n = 2.
      
      After removing the second node from the end, the linked list becomes 1->2->3->5.
- */
+     */
     //this solution traverse through the list and record the index 
     //after got the target index, it will traverse again and remove it
     //edge cases are the target is the head itself
@@ -374,7 +374,7 @@ class Algorithms: NSObject {
      *     }
      * }
      */
-
+    
     class func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
         
         guard head != nil && n > 0 else{
@@ -419,13 +419,13 @@ class Algorithms: NSObject {
         }
     }
     
-//20. Valid Parentheses
-/*
+    //20. Valid Parentheses
+    /*
      Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
      
      The brackets must close in the correct order, "([{}])" and "()[]{}" are all valid but "(]" and "([)]" are not.
-
- */
+     
+     */
     func isValid(_ s: String) -> Bool {
         
         let ary = s.characters.map{String($0)}
@@ -488,8 +488,8 @@ class Algorithms: NSObject {
         
     }
     
-//21. Merge Two Sorted Lists
-//Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+    //21. Merge Two Sorted Lists
+    //Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
     
     /**
      * Definition for singly-linked list.
@@ -522,19 +522,19 @@ class Algorithms: NSObject {
         }
     }
     
-//22. Generate Parentheses
-/*    Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
-    
-    For example, given n = 3, a solution set is:
-    
-    [
-    "((()))",
-    "(()())",
-    "(())()",
-    "()(())",
-    "()()()"
-    ]
- */
+    //22. Generate Parentheses
+    /*    Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+     
+     For example, given n = 3, a solution set is:
+     
+     [
+     "((()))",
+     "(()())",
+     "(())()",
+     "()(())",
+     "()()()"
+     ]
+     */
     class func generateParenthesis(_ n: Int) -> [String] {
         var list = [String]()
         generateOneByOne("",&list,n,n)
@@ -556,10 +556,10 @@ class Algorithms: NSObject {
         }
     }
     
-//23. Merge k Sorted Lists
-/*
+    //23. Merge k Sorted Lists
+    /*
      Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
- */
+     */
     class func mergeKLists(_ lists: [ListNode?]) -> ListNode? {
         
         var tempList = lists
@@ -602,14 +602,14 @@ class Algorithms: NSObject {
         }
     }
     
-//24. Swap Nodes in Pairs
-/*    Given a linked list, swap every two adjacent nodes and return its head.
-    
-    For example,
-    Given 1->2->3->4, you should return the list as 2->1->4->3.
-    
-    Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.
-  */
+    //24. Swap Nodes in Pairs
+    /*    Given a linked list, swap every two adjacent nodes and return its head.
+     
+     For example,
+     Given 1->2->3->4, you should return the list as 2->1->4->3.
+     
+     Your algorithm should use only constant space. You may not modify the values in the list, only nodes itself can be changed.
+     */
     class func swapPairs(_ head: ListNode?) -> ListNode? {
         guard head != nil && head?.next != nil else {
             return head
@@ -621,11 +621,11 @@ class Algorithms: NSObject {
         return newHead
     }
     
-//29. Divide Two Integers
-/*    Divide two integers without using multiplication, division and mod operator.
-    
-    If it is overflow, return MAX_INT.
-*/
+    //29. Divide Two Integers
+    /*    Divide two integers without using multiplication, division and mod operator.
+     
+     If it is overflow, return MAX_INT.
+     */
     class func divide(_ dividend: Int, _ divisor: Int) -> Int {
         
         guard divisor != 0 else {
@@ -668,7 +668,7 @@ class Algorithms: NSObject {
         }
         return res*sign
     }
-//39. Combination Sum
+    //39. Combination Sum
     /*
      Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
      
@@ -683,7 +683,7 @@ class Algorithms: NSObject {
      [7],
      [2, 2, 3]
      ]
- */
+     */
     class func combinationSum(_ candidates:[Int], _ target: Int) -> [[Int]]{
         let sCands = candidates.sorted()
         var result = NSMutableSet(array:[Int]())
@@ -705,8 +705,8 @@ class Algorithms: NSObject {
         }
     }
     
-//49. Group Anagrams
-/*
+    //49. Group Anagrams
+    /*
      Given an array of strings, group anagrams together.
      
      For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
@@ -717,7 +717,7 @@ class Algorithms: NSObject {
      ["nat","tan"],
      ["bat"]
      ]
- */
+     */
     class func groupAnagrams(_ strs: [String]) -> [[String]] {
         guard strs.count>0 else {
             return [[]]
@@ -759,22 +759,22 @@ class Algorithms: NSObject {
         return res
     }
     
-//62. Unique Paths
-/*
+    //62. Unique Paths
+    /*
      A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
      
      The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
      
-    ---------------
-    |R| | | | | | |
-    ---------------
-    | | | | | | | |
-    ---------------
-    | | | | | | |F|
-    ---------------
-
+     ---------------
+     |R| | | | | | |
+     ---------------
+     | | | | | | | |
+     ---------------
+     | | | | | | |F|
+     ---------------
+     
      R = Robot, F = Finish
- */
+     */
     class func uniquePaths(_ m: Int, _ n: Int) -> Int {
         let tot = m+n-2
         let down = m-1
@@ -812,7 +812,7 @@ class Algorithms: NSObject {
      
      Note:
      You are not suppose to use the library's sort function for this problem.
- */
+     */
     class func sortColors(_ nums: inout [Int]) {
         var l = 0, r = nums.count-1
         var i = 0
@@ -831,9 +831,9 @@ class Algorithms: NSObject {
             i += 1
         }
     }
-
-//91. Decode String
-/*
+    
+    //91. Decode String
+    /*
      A message containing letters from A-Z is being encoded to numbers using the following mapping:
      
      'A' -> 1
@@ -846,7 +846,7 @@ class Algorithms: NSObject {
      Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
      
      The number of ways decoding "12" is 2.
- */
+     */
     class func numDecodings(_ s: String) -> Int {
         
         if s.characters.isEmpty {
@@ -887,7 +887,7 @@ class Algorithms: NSObject {
         return dp[n]
     }
     
-//98. Valid Binary Search Tree
+    //98. Valid Binary Search Tree
     class func isValidBST(_ root: TreeNode?) -> Bool {
         
         return isValidWithin(root, Int.min, Int.max)
@@ -905,8 +905,8 @@ class Algorithms: NSObject {
         return isValidWithin(root?.left, min, (root?.val)!) && isValidWithin(root?.right, (root?.val)!, max)
     }
     
-//Select K nearest points
-//find k nearest points in and points array regarding the target point
+    //Select K nearest points
+    //find k nearest points in and points array regarding the target point
     
     class func kNearest(_ target:CGPoint, _ points:[CGPoint], _ k: Int) -> [CGPoint] {
         
@@ -951,8 +951,8 @@ class Algorithms: NSObject {
     class func distanceBtwPoints(_ p1:CGPoint, _ p2:CGPoint) -> Double {
         return pow(Double(p1.x)-Double(p2.x),2) + pow(Double(p1.y)-Double(p2.y), 2)
     }
-
-//114. Flatten Binary Tree to Linked List 
+    
+    //114. Flatten Binary Tree to Linked List
     /**
      * Definition for a binary tree node.
      * public class TreeNode {
@@ -966,29 +966,29 @@ class Algorithms: NSObject {
      *     }
      * }
      */
-/*
+    /*
      For example,
      Given
      
-         1
-        / \
-       2   5
-      / \   \
+     1
+     / \
+     2   5
+     / \   \
      3   4   6
      
      The flattened tree should look like:
      1
-      \
-       2
-        \
-         3
-          \
-           4
-            \
-             5
-              \
-               6
- */
+     \
+     2
+     \
+     3
+     \
+     4
+     \
+     5
+     \
+     6
+     */
     class func flatten(_ root: TreeNode?) {
         if root == nil {
             return
@@ -1011,7 +1011,7 @@ class Algorithms: NSObject {
         
     }
     
-//125. Valid Palindrome 
+    //125. Valid Palindrome
     /*
      Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
      
@@ -1024,7 +1024,7 @@ class Algorithms: NSObject {
      
      For the purpose of this problem, we define empty string as valid palindrome.
      
- */
+     */
     class func isPalindrome(_ s: String) -> Bool {
         if s.isEmpty {
             return true
@@ -1046,12 +1046,12 @@ class Algorithms: NSObject {
         return true
     }
     
-//198. House Robber
+    //198. House Robber
     /*
      You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
      
      Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
- */
+     */
     class func rob(_ nums: [Int]) -> Int {
         
         if nums.isEmpty {
@@ -1080,13 +1080,13 @@ class Algorithms: NSObject {
         return dp.last!
     }
     
-//209. Minimum Size Subarray Sum
-/*
- Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn't one, return 0 instead.
- 
- For example, given the array [2,3,1,2,4,3] and s = 7,
- the subarray [4,3] ≥ 7 has the minimal length under the problem constraint.
- */
+    //209. Minimum Size Subarray Sum
+    /*
+     Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn't one, return 0 instead.
+     
+     For example, given the array [2,3,1,2,4,3] and s = 7,
+     the subarray [4,3] ≥ 7 has the minimal length under the problem constraint.
+     */
     
     //step to solve this in one pass, first move the right side towards right
     //check if sum >= s, if not it means alfter search all it failed to get the result
@@ -1129,8 +1129,8 @@ class Algorithms: NSObject {
         return len
     }
     
-//239. Sliding Window Maximum
-/*
+    //239. Sliding Window Maximum
+    /*
      Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
      
      For example,
@@ -1148,7 +1148,7 @@ class Algorithms: NSObject {
      
      Note:
      You may assume k is always valid, ie: 1 ≤ k ≤ input array's size for non-empty array.
- */
+     */
     class func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
         
         guard !nums.isEmpty && k <= nums.count else {
@@ -1174,8 +1174,8 @@ class Algorithms: NSObject {
         return res
     }
     
-//350. Intersection of Two Arrays II
-/*
+    //350. Intersection of Two Arrays II
+    /*
      Given two arrays, write a function to compute their intersection.
      
      Example:
@@ -1184,7 +1184,7 @@ class Algorithms: NSObject {
      Note:
      Each element in the result should appear as many times as it shows in both arrays.
      The result can be in any order.
- */
+     */
     //sort and then compare
     class func intersect(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
         
@@ -1216,13 +1216,13 @@ class Algorithms: NSObject {
         
     }
     
- // Zig - Zag print String
- //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
- //
- //P   A   H   N
- //A P L S I I G
- //Y   I   R
- //And then read line by line: "PAHNAPLSIIGYIR"
+    // Zig - Zag print String
+    //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+    //
+    //P   A   H   N
+    //A P L S I I G
+    //Y   I   R
+    //And then read line by line: "PAHNAPLSIIGYIR"
     class func convert(_ s: String, _ numRows: Int) -> String {
         guard numRows > 1 else { return s }
         guard !s.isEmpty else { return s }
@@ -1248,23 +1248,73 @@ class Algorithms: NSObject {
         return bags.flatMap({$0}).joined()
     }
     
-  //first unique char in a string
- class func findFirstUniqueChar(chars: [String]) -> String {
-    guard !chars.isEmpty else { return "" }
-    var charsSet = Set<String>()
-    var repeatedCharsSet = Set<String>()
-    for char in chars {
-        let (res, _) = charsSet.insert(char)
-        if res == false {
-            _ = repeatedCharsSet.insert(char)
+    //first unique char in a string
+    class func findFirstUniqueChar(chars: [String]) -> String {
+        guard !chars.isEmpty else { return "" }
+        var charsSet = Set<String>()
+        var repeatedCharsSet = Set<String>()
+        for char in chars {
+            let (res, _) = charsSet.insert(char)
+            if res == false {
+                _ = repeatedCharsSet.insert(char)
+            }
         }
-    }
-    for i in 0..<chars.count {
-        if !repeatedCharsSet.contains(chars[i]) {
-            return chars[i]
+        for i in 0..<chars.count {
+            if !repeatedCharsSet.contains(chars[i]) {
+                return chars[i]
+            }
         }
+        return ""
     }
-    return ""
-}
- 
+    
+    //414. Third Maximum Number
+    //Given a NON-EMPTY array of integers, return the third maximum number in this array. If it does not exist, return the maximum number. The time complexity must be in O(n).
+    /**
+     Example 1:
+     Input: [3, 2, 1]
+     
+     Output: 1
+     
+     Explanation: The third maximum is 1.
+     Example 2:
+     Input: [1, 2]
+     
+     Output: 2
+     
+     Explanation: The third maximum does not exist, so the maximum (2) is returned instead.
+     Example 3:
+     Input: [2, 2, 3, 1]
+     
+     Output: 1
+     
+     Explanation: Note that the third maximum here means the third maximum distinct number.
+     Both numbers with value 2 are both considered as second maximum.
+     */
+    class func thirdMax(_ nums: [Int]) -> Int {
+        var top1: Int?
+        var top2: Int?
+        var top3: Int?
+        
+        for i in 0..<nums.count {
+            if nums[i] == top1 || nums[i] == top2 || nums[i] == top2 {
+                continue
+            } else if top1 == nil {
+                top1 = nums[i]
+            } else if top1! < nums[i] {
+                top3 = top2
+                top2 = top1
+                top1 = nums[i]
+            } else if top2 == nil, nums[i] < top1! {
+                top2 = nums[i]
+            } else if top2 != nil, nums[i] > top2! {
+                top3 = top2
+                top2 = nums[i]
+            } else if top3 == nil, top2 != nil, nums[i] < top2! {
+                top3 = nums[i]
+            } else if top3 != nil, top2 != nil, nums[i] < top2!, nums[i] > top3! {
+                top3 = nums[i]
+            }
+        }
+        return top3 == nil ? top1! : top3!
+    }
 }
