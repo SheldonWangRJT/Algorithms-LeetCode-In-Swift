@@ -1248,7 +1248,7 @@ class Algorithms: NSObject {
         return bags.flatMap({$0}).joined()
     }
     
-    //first unique char in a string
+    // First unique char in a string
     class func findFirstUniqueChar(chars: [String]) -> String {
         guard !chars.isEmpty else { return "" }
         var charsSet = Set<String>()
