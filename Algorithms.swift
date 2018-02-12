@@ -35,6 +35,38 @@ class Algorithms: NSObject {
         return res
     }
     
+    //6. Zig - Zag print String
+    //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+    //
+    //P   A   H   N
+    //A P L S I I G
+    //Y   I   R
+    //And then read line by line: "PAHNAPLSIIGYIR"
+    class func convert(_ s: String, _ numRows: Int) -> String {
+        guard numRows > 1 else { return s }
+        guard !s.isEmpty else { return s }
+        var bagPointer = 0
+        var ind = 0
+        var counter = 0
+        var goingDown = true
+        var bags = [[String]]()
+        for _ in 0..<numRows {
+            bags.append([])
+        }
+        let chars = s.characters.map({"\($0)"})
+        while ind <= chars.count - 1 {
+            bags[bagPointer].append(chars[ind])
+            ind += 1
+            bagPointer = goingDown ? bagPointer + 1 : bagPointer - 1
+            counter += 1
+            if counter == numRows-1 {
+                counter = 0
+                goingDown = !goingDown
+            }
+        }
+        return bags.flatMap({$0}).joined()
+    }
+    
     //12. Integer to Roman
     /*
      Given an integer, convert it to a roman numeral.
@@ -907,7 +939,6 @@ class Algorithms: NSObject {
     
     //Select K nearest points
     //find k nearest points in and points array regarding the target point
-    
     class func kNearest(_ target:CGPoint, _ points:[CGPoint], _ k: Int) -> [CGPoint] {
         
         var heap = [CGPoint]()
@@ -1129,6 +1160,59 @@ class Algorithms: NSObject {
         return len
     }
     
+    //221. Maximal Square
+    /**
+     Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
+     
+     For example, given the following matrix:
+     
+     1 0 1 0 0
+     1 0 1 1 1
+     1 1 1 1 1
+     1 0 0 1 0
+     Return 4.
+     
+     I was using brute force solution, see DP solution here: https://leetcode.com/problems/maximal-square/solution/
+     */
+    class func maximalSquare(_ matrix: [[Character]]) -> Int {
+        guard !matrix.isEmpty else { return 0 }
+        guard !matrix.first!.isEmpty else { return 0 }
+        
+        var currentLength: Int = 0
+        for i in 0..<matrix.count {
+            for j in 0..<matrix.first!.count {
+                
+                var length: Int = 0
+                if matrix[i][j] == "0" {
+                    continue
+                } else {
+                    length = 1
+                    spreadSquare(i, j, &length, matrix)
+                }
+                
+                currentLength = max(currentLength, length)
+            }
+        }
+        return currentLength * currentLength
+    }
+    
+    class private func spreadSquare(_ x: Int, _ y: Int, _ length: inout Int, _ matrix: [[Character]]) {
+        guard x+length < matrix.count && y+length < matrix.first!.count else { return }
+        for i in x...(x+length) {
+            if matrix[i][y+length] == Character("0") {
+                return
+            }
+        }
+        for i in y...(y+length) {
+            if matrix[x+length][i] == Character("0") {
+                return
+            }
+        }
+        length += 1
+        spreadSquare(x, y, &length, matrix)
+    }
+    
+    
     //239. Sliding Window Maximum
     /*
      Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
@@ -1216,36 +1300,33 @@ class Algorithms: NSObject {
         
     }
     
-    // Zig - Zag print String
-    //The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
-    //
-    //P   A   H   N
-    //A P L S I I G
-    //Y   I   R
-    //And then read line by line: "PAHNAPLSIIGYIR"
-    class func convert(_ s: String, _ numRows: Int) -> String {
-        guard numRows > 1 else { return s }
-        guard !s.isEmpty else { return s }
-        var bagPointer = 0
-        var ind = 0
-        var counter = 0
-        var goingDown = true
-        var bags = [[String]]()
-        for _ in 0..<numRows {
-            bags.append([])
-        }
-        let chars = s.characters.map({"\($0)"})
-        while ind <= chars.count - 1 {
-            bags[bagPointer].append(chars[ind])
-            ind += 1
-            bagPointer = goingDown ? bagPointer + 1 : bagPointer - 1
-            counter += 1
-            if counter == numRows-1 {
-                counter = 0
-                goingDown = !goingDown
+    //367. Valid Perfect Square
+    /**
+     Given a positive integer num, write a function which returns True if num is a perfect square else False.
+     
+     Note: Do not use any built-in library function such as sqrt.
+     
+     Example 1:
+     
+     Input: 16
+     Returns: True
+     Example 2:
+     
+     Input: 14
+     Returns: False
+     */
+    class func isPerfectSquare(_ num: Int) -> Bool {
+        for i in 1...num {
+            let x: Double = Double(num / i)
+            let y: Double = Double(i)
+            if y > x {
+                return false
+            }
+            if num % i == 0 && x == Double(i) {
+                return true
             }
         }
-        return bags.flatMap({$0}).joined()
+        return false
     }
     
     // First unique char in a string
