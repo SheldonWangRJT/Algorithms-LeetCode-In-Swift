@@ -779,24 +779,24 @@ class Algorithms: NSObject {
      [2, 2, 3]
      ]
      */
-    class func combinationSum(_ candidates:[Int], _ target: Int) -> [[Int]]{
-        let sCands = candidates.sorted()
-        var result = NSMutableSet(array:[Int]())
-        getResult(&result, [Int](), sCands, target, 0)
-        return Array(result) as! [[Int]]
+    func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
+        var result = [[Int]]()
+        findResult(candidates.sorted(), target, &result, [Int](), 0)
+        return result
     }
-    
-    class private func getResult(_ result: inout NSMutableSet, _ cur:[Int], _ cands:[Int], _ target: Int, _ start: Int){
-        if(target > 0){
-            for i in start..<cands.count {
-                if target >= cands[i] {
-                    var newCur = cur
-                    newCur.append(cands[i])
-                    getResult(&result, newCur, cands, target-cands[i], i)
+    private func findResult(_ candidates: [Int], _ target: Int, _ result: inout [[Int]], _ combination: [Int], _ start: Int) {
+        if target == 0 {
+            result.append(combination)
+        } else if target < 0 {
+            return
+        } else {
+            for i in start..<candidates.count {
+                if candidates[i] <= target {
+                    var c = combination
+                    c.append(candidates[i])
+                    findResult(candidates, target - candidates[i], &result, c, i)
                 }
             }
-        }else if(target == 0 ){
-            result.add(cur)
         }
     }
     
