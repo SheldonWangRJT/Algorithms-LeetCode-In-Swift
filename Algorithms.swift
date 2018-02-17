@@ -700,6 +700,69 @@ class Algorithms: NSObject {
         }
         return res*sign
     }
+    
+    //34. Search for a Range
+    /*
+     Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
+     
+     Your algorithm's runtime complexity must be in the order of O(log n).
+     
+     If the target is not found in the array, return [-1, -1].
+     
+     For example,
+     Given [5, 7, 7, 8, 8, 10] and target value 8,
+     return [3, 4].
+     */
+    class func searchRange(_ nums: [Int], _ target: Int) -> [Int] {
+        guard !nums.isEmpty else { return [-1, -1] }
+        
+        var l: Int = -1
+        var r: Int = -1
+        var low = 0
+        var high = nums.count - 1
+        var mid = (low + high) / 2
+        // find left range
+        while (low <= high) {
+            if low == high {
+                if nums[low] == target {
+                    l = low
+                }
+                break
+            }
+            if target > nums[mid] { // [1,1,1,8]
+                low = mid + 1
+            } else if nums[mid] == target {
+                l = mid
+                high = mid - 1
+            } else { // [1,8,8,9,9,9,9]
+                high = mid - 1
+            }
+            mid = (low + high) / 2
+        }
+        //find right range
+        low = 0
+        high = nums.count - 1
+        mid = (low + high) / 2
+        while (low <= high) {
+            if low == high {
+                if nums[low] == target {
+                    r = low
+                }
+                break
+            }
+            if target > nums[mid] { // [1,1,1,8]
+                low = mid + 1
+            } else if nums[mid] == target {
+                r = mid
+                low = mid + 1
+            } else { // [1,8,8,9,9,9,9]
+                high = mid - 1
+            }
+            mid = (low + high) / 2
+        }
+        return [l, r]
+    }
+    
     //39. Combination Sum
     /*
      Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
