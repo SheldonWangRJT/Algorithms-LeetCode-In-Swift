@@ -763,6 +763,55 @@ class Algorithms: NSObject {
         return [l, r]
     }
     
+    //35. Search Insert Position
+    /*
+     Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+     
+     You may assume no duplicates in the array.
+     
+     Example 1:
+     
+     Input: [1,3,5,6], 5
+     Output: 2
+     Example 2:
+     
+     Input: [1,3,5,6], 2
+     Output: 1
+     Example 3:
+     
+     Input: [1,3,5,6], 7
+     Output: 4
+     Example 1:
+     
+     Input: [1,3,5,6], 0
+     Output: 0
+     */
+    class func searchInsert(_ nums: [Int], _ target: Int) -> Int {
+        guard !nums.isEmpty else { return 0 }
+        var l = 0
+        var r = nums.count - 1
+        var mid = (l + r) / 2
+        var pre = nums.count
+        while (l <= r) {
+            if (l == r) {
+                if target <= nums[l] {
+                    return l
+                }
+                break
+            }
+            if target == nums[mid] {
+                return mid
+            } else if target < nums[mid] {
+                pre = mid
+                r = mid - 1
+            } else {
+                l = mid + 1
+            }
+            mid = (l + r) / 2
+        }
+        return pre
+    }
+    
     //39. Combination Sum
     /*
      Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
@@ -779,12 +828,12 @@ class Algorithms: NSObject {
      [2, 2, 3]
      ]
      */
-    func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
+    class func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
         var result = [[Int]]()
         findResult(candidates.sorted(), target, &result, [Int](), 0)
         return result
     }
-    private func findResult(_ candidates: [Int], _ target: Int, _ result: inout [[Int]], _ combination: [Int], _ start: Int) {
+    private class func findResult(_ candidates: [Int], _ target: Int, _ result: inout [[Int]], _ combination: [Int], _ start: Int) {
         if target == 0 {
             result.append(combination)
         } else if target < 0 {
