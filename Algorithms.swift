@@ -701,6 +701,57 @@ class Algorithms: NSObject {
         return res*sign
     }
     
+    //32. Longest Valid Parentheses
+    /*
+     Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+     
+     For "(()", the longest valid parentheses substring is "()", which has length = 2.
+     
+     Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+     */
+    class func longestValidParentheses(_ s: String) -> Int {
+        guard s.count != 0 else { return 0 }
+        // We will do two scan only record result when "(" & ")" have same amount
+        // When ")" has more amount, we will reset result
+        // We have to scan both directions to have the correct result for
+        // valid result in the case of valid but unfinished pairs like "(()" <- scan from left to right won't work
+        
+        // scan from left to right
+        var currentMax: Int = 0
+        var l: Int = 0
+        var r: Int = 0
+        for c in s {
+            if c == "(" {
+                l += 1
+            } else {
+                r += 1
+            }
+            if r > l {
+                l = 0
+                r = 0
+            } else if r == l {
+                currentMax = max(currentMax, r + l)
+            }
+        }
+        // scan from right to left
+        l = 0
+        r = 0
+        for c in s.reversed() {
+            if c == ")" {
+                l += 1
+            } else {
+                r += 1
+            }
+            if r > l {
+                l = 0
+                r = 0
+            } else if r == l {
+                currentMax = max(currentMax, r + l)
+            }
+        }
+        return currentMax
+    }
+    
     //34. Search for a Range
     /*
      Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
