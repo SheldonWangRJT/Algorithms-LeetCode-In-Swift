@@ -900,6 +900,42 @@ class Algorithms: NSObject {
         }
     }
     
+    //40. Combination Sum II
+    /* Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+     
+     Each number in C may only be used once in the combination.
+     
+     Note:
+     All numbers (including target) will be positive integers.
+     The solution set must not contain duplicate combinations.
+     For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8,
+     A solution set is:
+     [
+     [1, 7],
+     [1, 2, 5],
+     [2, 6],
+     [1, 1, 6]
+     ]
+     */
+    class func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
+        guard !candidates.isEmpty else { return [[Int]]() }
+        var result = [[Int]]()
+        updateResult(candidates.sorted(), target, &result, [Int](), 0)
+        return result
+    }
+    private class func updateResult(_ candidates: [Int], _ target: Int, _ result: inout [[Int]], _ combination: [Int], _ ind: Int) {
+        if target == 0 {
+            result.append(combination)
+        } else if target < 0 {
+            return
+        } else {
+            for i in ind..<candidates.count {
+                if (i > ind && candidates[i] == candidates[i-1]) { continue }
+                updateResult(candidates, target - candidates[i], &result, combination + [candidates[i]], i+1)
+            }
+        }
+    }
+    
     //49. Group Anagrams
     /*
      Given an array of strings, group anagrams together.
