@@ -936,6 +936,30 @@ class Algorithms: NSObject {
         }
     }
     
+    //41. First Missing Positive
+    /*
+     Given an unsorted integer array, find the first missing positive integer.
+     
+     For example,
+     Given [1,2,0] return 3,
+     and [3,4,-1,1] return 2.
+     
+     Your algorithm should run in O(n) time and uses constant space. //My solution is nLg(n)
+     */
+    class func firstMissingPositive(_ nums: [Int]) -> Int {
+        let sNums = nums.filter({$0>0}).sorted()
+        guard !sNums.isEmpty else { return 1 }
+        
+        var cur = 0
+        for i in 0..<sNums.count {
+            if sNums[i] > cur + 1 { return cur + 1 }
+            if sNums[i] == cur + 1 {
+                cur += 1
+            }
+        }
+        return cur + 1
+    }
+    
     //49. Group Anagrams
     /*
      Given an array of strings, group anagrams together.
@@ -1200,24 +1224,24 @@ class Algorithms: NSObject {
      For example,
      Given
      
-     1
-     / \
-     2   5
-     / \   \
+         1
+        / \
+       2   5
+      / \   \
      3   4   6
      
      The flattened tree should look like:
      1
-     \
-     2
-     \
-     3
-     \
-     4
-     \
-     5
-     \
-     6
+      \
+      2
+       \
+       3
+        \
+        4
+         \
+         5
+          \
+          6
      */
     class func flatten(_ root: TreeNode?) {
         if root == nil {
