@@ -960,6 +960,56 @@ class Algorithms: NSObject {
         return cur + 1
     }
     
+    //42. Trapping Rain Water
+    /*
+     Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+     
+     For example,
+     Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+     See image: https://leetcode.com/static/images/problemset/rainwatertrap.png
+     See question: https://leetcode.com/problems/trapping-rain-water/description/
+     */
+    class func trap(_ height: [Int]) -> Int {
+        // scan from left to right to record pipes that taller than previous recorded pipe
+        var indArray = [Int]()
+        var max1 = -1
+        for i in 0..<height.count {
+            if height[i] > 0 && height[i] >= max1 {
+                indArray.append(i)
+                max1 = height[i]
+            }
+        }
+        // scan from right to left to record pipes that taller than previous recorded pipe until max height
+        let rHeight: [Int] = height.reversed()
+        var indArray2 = [Int]()
+        var max2 = -1
+        for i in 0..<height.count {
+            if rHeight[i] == max1 { break }
+            if rHeight[i] > 0 && rHeight[i] >= max2 {
+                indArray2.append(height.count - 1 - i)
+                max2 = rHeight[i]
+            }
+        }
+        // generate useful pipes array
+        indArray2 = indArray2.reversed()
+        indArray = indArray + indArray2
+        guard indArray.count >= 2 else { return  0 }
+        var res = 0
+        
+        // calculate the water in between useful pipes, also deduct the pipes in between useful pipes
+        for i in 0..<indArray.count {
+            if i > 0 {
+                res += min(height[indArray[i]], height[indArray[i-1]]) * (indArray[i] - indArray[i-1] - 1)
+                if indArray[i] - indArray[i-1] > 1 {
+                    for j in (indArray[i-1]+1)..<indArray[i] {
+                        res -= height[j]
+                    }
+                }
+            }
+        }
+        return res
+    }
+    
     //49. Group Anagrams
     /*
      Given an array of strings, group anagrams together.
