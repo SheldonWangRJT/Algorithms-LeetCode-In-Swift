@@ -53,7 +53,7 @@ class Algorithms: NSObject {
         for _ in 0..<numRows {
             bags.append([])
         }
-        let chars = s.characters.map({"\($0)"})
+        let chars = s.map({String($0)})
         while ind <= chars.count - 1 {
             bags[bagPointer].append(chars[ind])
             ind += 1
@@ -93,20 +93,17 @@ class Algorithms: NSObject {
     //for XII case, just X + I + I = 10+1+1
     
     class func romanToInt(_ s: String) -> Int {
-        let dict = ["I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000]
-        guard !s.isEmpty else {
-            return 0
-        }
+        guard !s.isEmpty else { return 0 }
         
+        let dict = ["I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000]
         var result = 0
         var prev = 0
-        for char in s.characters {
+        for char in s {
             if let curr = dict[String(char)] {
                 if curr > prev {
                     result = result + curr - prev*2
-                    
                     prev = curr
-                }else {
+                } else {
                     result += curr
                     prev = curr
                 }
@@ -115,36 +112,27 @@ class Algorithms: NSObject {
         return result
     }
     
-    
     //14. common prefix of string array [String]
     class func longestCommonPrefix(_ strs: [String]) -> String {
-        
-        if strs.isEmpty { return "" }
-        else if strs.count == 1 { return strs[0] }
-        else {
-            
+        if strs.isEmpty {
+            return ""
+        } else if strs.count == 1 {
+            return strs[0]
+        } else {
             var commonPrefix = strs[0]
-            
             for i in 1..<strs.count {
-                
-                let ary1 = Array(commonPrefix.characters)
-                let ary2 = Array(strs[i].characters)
-                
-                let cnt1 = ary1.count
-                let cnt2 = ary2.count
+                let ary1 = Array(commonPrefix)
+                let ary2 = Array(strs[i])
                 
                 commonPrefix = ""
-                
-                innerLoop: for j in 0..<min(cnt1,cnt2) {
-                    
+                innerLoop: for j in 0..<min(ary1.count, ary2.count) {
                     if ary1[j] == ary2[j] {
                         commonPrefix += String(ary1[j])
-                    }else {
+                    } else {
                         break innerLoop
                     }
                 }
             }
-            
             return commonPrefix
         }
     }
@@ -153,11 +141,7 @@ class Algorithms: NSObject {
     class func threeSum(_ nums: [Int]) -> [[Int]] {
         
         var resAry = [[Int]]()
-        
-        guard nums.count>=3 else {
-            return resAry
-        }
-        
+        guard nums.count>=3 else { return resAry }
         //step 1: remove duplicate values
         //  a. form a dictionary with item and apprance time
         //  b. iterate dictionary if val>=2 check possible solution
@@ -169,11 +153,10 @@ class Algorithms: NSObject {
         for i in nums {
             if let val = dict[i] {
                 dict[i] = val + 1
-            }else {
+            } else {
                 dict[i] = 1
             }
         }
-        
         let numsSet = NSSet(array:nums)
         
         for (key,val) in dict {
@@ -181,7 +164,7 @@ class Algorithms: NSObject {
                 if numsSet.contains(0-2*val) {
                     resAry.append([key,key,0-2*key])
                 }
-            }else if val >= 3 && key == 0 {
+            } else if val >= 3 && key == 0 {
                 resAry.append([0,0,0])
             }
         }
@@ -202,14 +185,11 @@ class Algorithms: NSObject {
                 if NSSet(array:ary).contains(0-val1-val2) {
                     resAry.append([val1,val2,0-val1-val2])
                 }
-                
             }
-            
         }
-        
         return resAry
-        
     }
+    
     //16. Three Sum - Closest
     /* Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution
      */
@@ -217,7 +197,6 @@ class Algorithms: NSObject {
      The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
      */
     class func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
-        
         //we are assuming we will have exact one solution, so that we dont need to take care of the cases when nums.count<3
         //so that sNums[0], sNums[1], sNums[2] will not have index error
         
@@ -233,7 +212,7 @@ class Algorithms: NSObject {
                 let sum = sNums[i]+sNums[leftInd]+sNums[rightInd]
                 if sum >= target {
                     rightInd -= 1
-                }else {
+                } else {
                     leftInd += 1
                 }
                 
@@ -244,7 +223,6 @@ class Algorithms: NSObject {
         }
         return res
     }
-    
     
     //17. Letter Combinations of a Phone Number
     /*
@@ -264,18 +242,13 @@ class Algorithms: NSObject {
      Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
      */
     class func letterCombinations(_ digits: String) -> [String] {
-        
-        guard !digits.isEmpty else {
-            return []
-        }
+        guard !digits.isEmpty else { return [] }
         
         let map = [[], [], ["a","b","c"], ["d","e","f"], ["g","h","i"], ["j","k","l"], ["m","n","o"], ["p","q","r","s"], ["t","u","v"], ["w","x","y","z"]]
         
-        let chars = digits.characters.map{String($0)}
+        let chars = digits.map{String($0)}
         
-        var resAry = [String]()
-        
-        resAry = map[Int(chars[0])!]
+        var resAry: [String] = map[Int(chars[0])!]
         
         guard chars.count >= 2 else {
             return resAry
@@ -304,7 +277,6 @@ class Algorithms: NSObject {
         return resAry
     }
     
-    
     //18. Four sum
     /*
      Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
@@ -332,14 +304,17 @@ class Algorithms: NSObject {
     
     private class func nSum(_ nums:[Int], _ target: Int, _ N: Int, _ result: [Int], _ results: inout [[Int]]) {
         
-        guard nums.count>=N && N>=2 && target>=nums[0] && target<=nums[nums.count-1] else {
+        guard
+            nums.count>=N &&
+            N>=2 &&
+            target>=nums[0] &&
+            target<=nums[nums.count-1]
+        else {
             return
         }
         
         if N == 2 {
-            
             var l = 0, r = nums.count-1
-            
             while l<r {
                 if (nums[l] + nums[r] == target) {
                     results.append(result + [nums[l],nums[r]] )
@@ -357,15 +332,13 @@ class Algorithms: NSObject {
                             r -= 1
                         }
                     }
-                }else if nums[l] + nums[r] > target {
+                } else if nums[l] + nums[r] > target {
                     r -= 1
-                }else {
+                } else {
                     l += 1
                 }
             }
-            
-        }else {
-            
+        } else {
             for i in 0..<nums.count-N+1 {
                 //if condition for removing possible duplicated result
                 if i==0 || (i>=1 && nums[i] != nums[i-1]) {
@@ -376,7 +349,6 @@ class Algorithms: NSObject {
             }
         }
     }
-    
     
     //19. Remove Nth Node From End of List
     /*
@@ -424,13 +396,13 @@ class Algorithms: NSObject {
         
         if n > ind+1 {
             return head
-        }else if n == ind+1 {
+        } else if n == ind+1 {
             if let node = head!.next {
                 return node
-            }else {
+            } else {
                 return nil
             }
-        }else {
+        } else {
             
             let targetInd = ind-n+1
             
@@ -444,7 +416,7 @@ class Algorithms: NSObject {
             
             if let node = curNode.next!.next {
                 curNode.next = node
-            }else {
+            } else {
                 curNode.next = nil
             }
             return head
@@ -460,7 +432,7 @@ class Algorithms: NSObject {
      */
     func isValid(_ s: String) -> Bool {
         
-        let ary = s.characters.map{String($0)}
+        let ary = s.map{String($0)}
         
         guard ary.count>=2 && ary.count%2==0 else {
             return false
@@ -475,49 +447,40 @@ class Algorithms: NSObject {
             case "(","[","{":
                 parenStack.append(s)
             case ")":
-                
                 if let last = parenStack.last {
                     if last == "(" {
                         _ = parenStack.popLast()!
-                    }else {
+                    } else {
                         return false
                     }
-                }else {
+                } else {
                     return false
                 }
-                
-                
             case "]":
-                
                 if let last = parenStack.last {
                     if last == "[" {
                         _ = parenStack.popLast()!
-                    }else {
+                    } else {
                         return false
                     }
-                }else {
+                } else {
                     return false
                 }
             case "}":
-                
                 if let last = parenStack.last {
                     if last == "{" {
                         _ = parenStack.popLast()!
-                    }else {
+                    } else {
                         return false
                     }
-                }else {
+                } else {
                     return false
                 }
-                
             default:
                 break
             }
-            
         }
-        
         return parenStack.isEmpty
-        
     }
     
     //21. Merge Two Sorted Lists
@@ -548,7 +511,7 @@ class Algorithms: NSObject {
         if l1!.val <= l2!.val {
             l1?.next = mergeTwoLists(l1?.next,l2)
             return l1
-        }else {
+        } else {
             l2?.next = mergeTwoLists(l1,l2?.next)
             return l2
         }
@@ -573,18 +536,17 @@ class Algorithms: NSObject {
         return list
     }
     private class func generateOneByOne(_ sublist:String,_ list: inout [String],_ left:Int,_ right:Int){
-        if(left > right){
+        if left > right {
             return
         }
-        if(left > 0){
-            generateOneByOne( sublist + "(" , &list, left-1, right);
+        if left > 0 {
+            generateOneByOne(sublist + "(" , &list, left-1, right);
         }
-        if(right > 0){
-            generateOneByOne( sublist + ")" , &list, left, right-1);
+        if right > 0 {
+            generateOneByOne(sublist + ")" , &list, left, right-1);
         }
-        if(left == 0 && right == 0){
+        if left == 0 && right == 0 {
             list.append(sublist)
-            return
         }
     }
     
@@ -593,13 +555,12 @@ class Algorithms: NSObject {
      Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
      */
     class func mergeKLists(_ lists: [ListNode?]) -> ListNode? {
-        
         var tempList = lists
         var cn = 0
         while cn<tempList.count {
             if tempList[cn] == nil {
                 tempList.remove(at:cn)
-            }else {
+            } else {
                 cn += 1
             }
         }
@@ -628,7 +589,7 @@ class Algorithms: NSObject {
         if l1!.val < l2!.val {
             l1!.next = merge2List(l1!.next,l2)
             return l1
-        }else {
+        } else {
             l2!.next = merge2List(l1,l2!.next)
             return l2
         }
@@ -674,14 +635,14 @@ class Algorithms: NSObject {
             if divisor > 0 {
                 sign = -1
             }
-        }else {
+        } else {
             if divisor < 0 {
                 sign = -1
             }
         }
         
         var dd = abs(dividend)
-        var dr = abs(divisor)
+        let dr = abs(divisor)
         
         //create result var
         var res = 0
@@ -1034,9 +995,9 @@ class Algorithms: NSObject {
         for s in strs {
             if s.isEmpty {
                 muls.append(0)
-            }else {
+            } else {
                 var mul = 1
-                for ch in s.characters {
+                for ch in s {
                     mul = mul * (prime[String(ch)]!)
                 }
                 muls.append(mul)
@@ -1050,7 +1011,7 @@ class Algorithms: NSObject {
                 var aryCopy:[String] = map[muls[i]]!
                 aryCopy.append(strs[i])
                 map[muls[i]] = aryCopy
-            }else {
+            } else {
                 map[muls[i]] = [strs[i]]
             }
         }
@@ -1084,7 +1045,7 @@ class Algorithms: NSObject {
         let tot = m+n-2
         let down = m-1
         //choose m-1 is the amount to go down
-        //res = choose m-1 out of m+n-2 = tot!/((m-1)!*(n-1))
+        //res = choose m-1 out of m+n-2 = tot!/((m-1)!*(n-1)!)
         if m==0 || n==0 {
             return 0
         }
@@ -1098,14 +1059,12 @@ class Algorithms: NSObject {
         guard v>0 else {
             return 0
         }
-        
         var res = 1
         var i = v
         while i > 0 {
             res *= i
             i -= 1
         }
-        
         return res
     }
     
@@ -1123,14 +1082,12 @@ class Algorithms: NSObject {
         var i = 0
         
         while i <= r {
-            
             while (nums[i] == 2 && i < r) {
-                swap(&nums[i], &nums[r])
+                nums.swapAt(i, r)
                 r -= 1
             }
-            
             while (nums[i] == 0 && i > l) {
-                swap(&nums[i], &nums[l])
+                nums.swapAt(i, l)
                 l += 1
             }
             i += 1
@@ -1154,13 +1111,13 @@ class Algorithms: NSObject {
      */
     class func numDecodings(_ s: String) -> Int {
         
-        if s.characters.isEmpty {
+        if s.isEmpty {
             return 0
         }
         
         //put a placehodler 1 at first, which indicates "" has only one way to decode
         //although given empty string we will return 0
-        let n = s.characters.count
+        let n = s.count
         var dp = [Int]()
         dp.append(1)
         
@@ -1170,11 +1127,11 @@ class Algorithms: NSObject {
         }
         
         //check the first character, if 0, dp[1]=0, since 0 has to be part of 10 or 20, else dp[1]=1
-        let chars = s.characters.map{String($0)}
+        let chars = s.map{String($0)}
         dp[1] = (chars[0] == "0") ? 0 : 1
         
         //return here for the case of "0"
-        if s.characters.count == 1 {
+        if s.count == 1 {
             return dp[1]
         }
         
@@ -1235,12 +1192,12 @@ class Algorithms: NSObject {
         
         if heap.isEmpty {
             heap.append(newPoint)
-        }else {
+        } else {
             var i = heap.count-1
             wLoop: while i >= 0 {
                 if distanceBtwPoints(newPoint, targetPoint) < distanceBtwPoints(heap[i], targetPoint) {
                     i -= 1
-                }else {
+                } else {
                     break wLoop
                 }
             }
@@ -1337,11 +1294,11 @@ class Algorithms: NSObject {
         let charSet = NSCharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         pdStr = pdStr.components(separatedBy: charSet.inverted).joined().lowercased()
         
-        if pdStr.isEmpty || pdStr.characters.count == 1 {
+        if pdStr.isEmpty || pdStr.count == 1 {
             return true
         }
         
-        let charAry = pdStr.characters.map{String($0)}
+        let charAry = pdStr.map{String($0)}
         for i in 0...(charAry.count-1)/2 {
             if charAry[i] != charAry[charAry.count-1-i] {
                 return false
@@ -1373,7 +1330,7 @@ class Algorithms: NSObject {
         var dp = [Int]()
         dp.append(nums[0])
         dp.append(max(nums[0],nums[1]))
-        for i in 2...nums.count-1 {
+        for _ in 2...nums.count-1 {
             dp.append(0)
         }
         
@@ -1413,7 +1370,7 @@ class Algorithms: NSObject {
             
             if sum >= s {
                 len = min(len,(r-1)-l+1)
-            }else {
+            } else {
                 break
             }
             
@@ -1485,7 +1442,6 @@ class Algorithms: NSObject {
         spreadSquare(x, y, &length, matrix)
     }
     
-    
     //239. Sliding Window Maximum
     /*
      Given an array nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
@@ -1520,7 +1476,7 @@ class Algorithms: NSObject {
             if tempMaxInd>=i && tempMaxInd<=i+k-1 {
                 tempMax = max(tempMax,nums[i+k-1])
                 res.append(tempMax)
-            }else {
+            } else {
                 tempMax = Int.min
                 for j in i..<i+k {
                     tempMax = max(tempMax,nums[j])
@@ -1560,11 +1516,11 @@ class Algorithms: NSObject {
             
             if sNums1[i] < sNums2[j] {
                 i += 1
-            }else if sNums1[i] == sNums2[j] {
+            } else if sNums1[i] == sNums2[j] {
                 inter.append(sNums1[i])
                 i += 1
                 j += 1
-            }else {
+            } else {
                 j += 1
             }
         }
@@ -1760,7 +1716,7 @@ class Algorithms: NSObject {
         guard l.count == r.count else { return false }
         var j = 0
         for i in 0..<l.count {
-            if Array(l.characters)[i] != Array(r.characters)[i] {
+            if Array(l)[i] != Array(r)[i] {
                 j += 1
             }
         }
