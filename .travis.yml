@@ -1,4 +1,4 @@
 language: swift
 before_install:
     - brew update
-    - brew install xctool
+    - brew upgrade xctool
