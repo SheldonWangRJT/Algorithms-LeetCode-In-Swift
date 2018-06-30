@@ -1,2 +1,4 @@
 language: swift
+before_install:
+  - chmod +x travis/script.sh
 script: travis/script.sh
