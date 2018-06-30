@@ -1,3 +1,3 @@
 #!/bin/sh
-set -d
+set -e
 xcodebuild -scheme LeetCodeAlgorithms test
