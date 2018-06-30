@@ -1747,10 +1747,10 @@ class Algorithms: NSObject {
      The length of accounts[i][j] will be in the range [1, 30].
      */
     
-    var graph = [String: [String]]()
-    var visited = Set<String>()
+    static var graph = [String: [String]]()
+    static var visited = Set<String>()
     
-    func accountsMerge(_ accounts: [[String]]) -> [[String]] {
+    class func accountsMerge(_ accounts: [[String]]) -> [[String]] {
         guard !accounts.isEmpty else { return [] }
         var names = [String: String]()
         for account in accounts {
@@ -1789,7 +1789,7 @@ class Algorithms: NSObject {
         return res
     }
     
-    private func addToList(_ email: String, _ list: [String]) -> [String] {
+    private class func addToList(_ email: String, _ list: [String]) -> [String] {
         if visited.contains(email) { return list }
         guard let emails = graph[email], !emails.isEmpty else { return list }
         visited.insert(email)
