@@ -1,3 +1,3 @@
 #!/bin/sh
 set -d
-xctool -scheme LeetCodeAlgorithms build test
+xcodebuild -scheme LeetCodeAlgorithms test
