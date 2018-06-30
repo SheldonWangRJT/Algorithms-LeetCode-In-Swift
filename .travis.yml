@@ -1,4 +1,2 @@
 language: swift
-before_install:
-    - brew update
-    - brew upgrade xctool
+script: travis/script.sh

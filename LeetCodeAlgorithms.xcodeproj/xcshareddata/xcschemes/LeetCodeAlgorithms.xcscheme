@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B7A94EB20E83F7A004D6E58"
+               BuildableName = "LeetCodeAlgorithmsTests.xctest"
+               BlueprintName = "LeetCodeAlgorithmsTests"
+               ReferencedContainer = "container:LeetCodeAlgorithms.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
